@@ -7,6 +7,7 @@ import nz.co.stuxo.app.data.model.Ribot;
 import nz.co.stuxo.app.injection.ConfigPersistent;
 import nz.co.stuxo.app.ui.base.BasePresenter;
 import nz.co.stuxo.app.util.RxUtil;
+import okhttp3.ResponseBody;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -63,4 +64,25 @@ public class PlayerPresenter extends BasePresenter<PlayerMvpView> {
                 });
     }
 
+    public void playPause(){
+        checkViewAttached();
+        RxUtil.unsubscribe(mSubscription);
+        mSubscription = mDataManager.pause()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(new Subscriber<ResponseBody>() {
+                @Override public void onCompleted() {
+
+                }
+
+                @Override public void onError(Throwable e) {
+                    e.printStackTrace();
+                    getMvpView().showError();
+                }
+
+                @Override public void onNext(ResponseBody responseBody) {
+
+                }
+            });
+    }
 }

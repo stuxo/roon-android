@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -27,6 +29,14 @@ public class PlayerActivity extends BaseActivity implements PlayerMvpView {
     @Inject PlayerPresenter mPlayerPresenter;
 
     @BindView(R.id.progress) TextView mProgress;
+
+    @BindView(R.id.play_pause) Button mPlayPause;
+
+
+    @OnClick(R.id.play_pause)
+    public void onPlayPauseClicked(){
+        mPlayerPresenter.playPause();
+    }
 
     /**
      * Return an Intent to start this Activity.
